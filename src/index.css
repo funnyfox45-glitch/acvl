@@ -1,0 +1,226 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 100 50% 3%;
+    --foreground: 100 30% 95%;
+    --card: 100 60% 5%;
+    --card-foreground: 100 30% 95%;
+    --popover: 100 60% 5%;
+    --popover-foreground: 100 30% 95%;
+    --primary: 94 63% 33%;
+    --primary-foreground: 100 50% 3%;
+    --secondary: 94 50% 20%;
+    --secondary-foreground: 100 30% 95%;
+    --muted: 100 30% 12%;
+    --muted-foreground: 0 0% 54%;
+    --accent: 94 63% 33%;
+    --accent-foreground: 100 50% 3%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 100 30% 18%;
+    --input: 100 30% 12%;
+    --ring: 94 63% 33%;
+    --radius: 0.25rem;
+
+    --forest: #2d5016;
+    --green: #508c1f;
+    --light-green: #84bc49;
+    --dark-green: #0f2a05;
+    --black: #0a1a05;
+    --cream: #f4f8ef;
+    --white: #f5f5f5;
+    --gray: #d9d9d9;
+    --muted-gray: #8a8a8a;
+    --green-50: rgba(80, 140, 31, 0.5);
+    --green-30: rgba(80, 140, 31, 0.3);
+    --forest-light: #3a6b1f;
+    --cream-20: rgba(244, 248, 239, 0.2);
+    --cream-10: rgba(244, 248, 239, 0.1);
+    --black-green: #152e0a;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Onest', sans-serif;
+    background-color: var(--black);
+    color: var(--cream);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  * {
+    @apply border-border;
+  }
+}
+
+@layer components {
+  .container-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  @media (max-width: 768px) {
+    .container-main {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    background-color: var(--green);
+    color: var(--black);
+    font-family: 'Onest', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--forest-light);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    background-color: transparent;
+    color: var(--green);
+    font-family: 'Onest', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 4px;
+    border: 1px solid var(--green-30);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--green);
+    background-color: var(--green-30);
+    transform: translateY(-1px);
+  }
+
+  .section-padding {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  .laser-section {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    --laser-color: rgba(80, 140, 31, 0.6);
+    --laser-glow: rgba(132, 188, 73, 0.3);
+    --grid-color: rgba(244, 248, 239, 0.06);
+  }
+
+  .laser-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to bottom, transparent 49.5%, var(--grid-color) 49.5%, var(--grid-color) 50.5%, transparent 50.5%),
+      linear-gradient(to right, transparent 49.5%, var(--grid-color) 49.5%, var(--grid-color) 50.5%, transparent 50.5%);
+    background-size: 80px 80px;
+    pointer-events: none;
+  }
+
+  .laser-beam {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .laser-beam::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--laser-color) 40%, var(--laser-glow) 50%, var(--laser-color) 60%, transparent);
+    opacity: 0;
+    animation: laserScan 6s linear infinite;
+  }
+
+  .laser-trail {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .laser-trail::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(80, 140, 31, 0.15) 45%, rgba(80, 140, 31, 0.15) 55%, transparent 100%);
+    clip-path: inset(0 0 100% 0);
+    animation: laserTrail 6s linear infinite;
+  }
+}
+
+@keyframes laserScan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes laserTrail {
+  0% {
+    clip-path: inset(0 0 100% 0);
+  }
+  50% {
+    clip-path: inset(0 0 0% 0);
+  }
+  100% {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .laser-beam::before,
+  .laser-trail::before {
+    animation: none;
+  }
+  .laser-beam::before {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+}
